@@ -35,6 +35,7 @@
 		6F4F084B2AF7C0D8009D3568 /* AFHTTPSessionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFHTTPSessionManager.m; sourceTree = "<group>"; };
 		6F4F084D2AF7C101009D3568 /* AFURLSessionManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		6F4F084E2AF7C101009D3568 /* AFURLSessionManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
+		6F4F08502AF7D787009D3568 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +52,7 @@
 		6F4F08242AF7C0A7009D3568 = {
 			isa = PBXGroup;
 			children = (
+				6F4F08502AF7D787009D3568 /* README.md */,
 				6F4F082F2AF7C0A7009D3568 /* AFNetworkingLearning */,
 				6F4F082E2AF7C0A7009D3568 /* Products */,
 			);

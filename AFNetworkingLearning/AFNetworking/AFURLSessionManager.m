@@ -459,4 +459,12 @@ didFinishDownloadingToURL:(NSURL *)location
     delegate.downloadProgressBlock = downloadProgressBlock;
 }
 
+
+
+#pragma mark - NSCopying
+-(instancetype)copyWithZone:(NSZone *)zone {
+    return [[[self class] allocWithZone:zone] initWithSessionConfiguration:self.session.configuration];
+}
+
+
 @end

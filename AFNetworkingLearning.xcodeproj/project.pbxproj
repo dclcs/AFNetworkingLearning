@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6F24BD8D2AF8E15C00157372 /* AFURLSessionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F24BD8C2AF8E15C00157372 /* AFURLSessionManagerTests.m */; };
+		6F24BD922AF8E38600157372 /* AFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F24BD912AF8E38600157372 /* AFTestCase.m */; };
 		6F4F08322AF7C0A7009D3568 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4F08312AF7C0A7009D3568 /* AppDelegate.m */; };
 		6F4F08352AF7C0A7009D3568 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4F08342AF7C0A7009D3568 /* SceneDelegate.m */; };
 		6F4F08382AF7C0A7009D3568 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4F08372AF7C0A7009D3568 /* ViewController.m */; };
@@ -18,7 +20,21 @@
 		6F4F084F2AF7C101009D3568 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4F084E2AF7C101009D3568 /* AFURLSessionManager.m */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		6F24BD862AF8E12500157372 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6F4F08252AF7C0A7009D3568 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6F4F082C2AF7C0A7009D3568;
+			remoteInfo = AFNetworkingLearning;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		6F24BD822AF8E12500157372 /* AFNetworkingLearningTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AFNetworkingLearningTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		6F24BD8C2AF8E15C00157372 /* AFURLSessionManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManagerTests.m; sourceTree = "<group>"; };
+		6F24BD902AF8E38600157372 /* AFTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFTestCase.h; sourceTree = "<group>"; };
+		6F24BD912AF8E38600157372 /* AFTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFTestCase.m; sourceTree = "<group>"; };
 		6F4F082D2AF7C0A7009D3568 /* AFNetworkingLearning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFNetworkingLearning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F4F08302AF7C0A7009D3568 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6F4F08312AF7C0A7009D3568 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -39,6 +55,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		6F24BD7F2AF8E12500157372 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6F4F082A2AF7C0A7009D3568 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -49,11 +72,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6F24BD832AF8E12500157372 /* AFNetworkingLearningTests */ = {
+			isa = PBXGroup;
+			children = (
+				6F24BD8B2AF8E12B00157372 /* AFNetworking */,
+				6F24BD902AF8E38600157372 /* AFTestCase.h */,
+				6F24BD912AF8E38600157372 /* AFTestCase.m */,
+			);
+			path = AFNetworkingLearningTests;
+			sourceTree = "<group>";
+		};
+		6F24BD8B2AF8E12B00157372 /* AFNetworking */ = {
+			isa = PBXGroup;
+			children = (
+				6F24BD8C2AF8E15C00157372 /* AFURLSessionManagerTests.m */,
+			);
+			path = AFNetworking;
+			sourceTree = "<group>";
+		};
 		6F4F08242AF7C0A7009D3568 = {
 			isa = PBXGroup;
 			children = (
 				6F4F08502AF7D787009D3568 /* README.md */,
 				6F4F082F2AF7C0A7009D3568 /* AFNetworkingLearning */,
+				6F24BD832AF8E12500157372 /* AFNetworkingLearningTests */,
 				6F4F082E2AF7C0A7009D3568 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -62,6 +104,7 @@
 			isa = PBXGroup;
 			children = (
 				6F4F082D2AF7C0A7009D3568 /* AFNetworkingLearning.app */,
+				6F24BD822AF8E12500157372 /* AFNetworkingLearningTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -99,6 +142,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		6F24BD812AF8E12500157372 /* AFNetworkingLearningTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 6F24BD8A2AF8E12500157372 /* Build configuration list for PBXNativeTarget "AFNetworkingLearningTests" */;
+			buildPhases = (
+				6F24BD7E2AF8E12500157372 /* Sources */,
+				6F24BD7F2AF8E12500157372 /* Frameworks */,
+				6F24BD802AF8E12500157372 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				6F24BD872AF8E12500157372 /* PBXTargetDependency */,
+			);
+			name = AFNetworkingLearningTests;
+			productName = AFNetworkingLearningTests;
+			productReference = 6F24BD822AF8E12500157372 /* AFNetworkingLearningTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		6F4F082C2AF7C0A7009D3568 /* AFNetworkingLearning */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6F4F08462AF7C0A8009D3568 /* Build configuration list for PBXNativeTarget "AFNetworkingLearning" */;
@@ -125,6 +186,10 @@
 				BuildIndependentTargetsInParallel = 1;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					6F24BD812AF8E12500157372 = {
+						CreatedOnToolsVersion = 15.0;
+						TestTargetID = 6F4F082C2AF7C0A7009D3568;
+					};
 					6F4F082C2AF7C0A7009D3568 = {
 						CreatedOnToolsVersion = 15.0.1;
 					};
@@ -144,11 +209,19 @@
 			projectRoot = "";
 			targets = (
 				6F4F082C2AF7C0A7009D3568 /* AFNetworkingLearning */,
+				6F24BD812AF8E12500157372 /* AFNetworkingLearningTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		6F24BD802AF8E12500157372 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6F4F082B2AF7C0A7009D3568 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -162,6 +235,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		6F24BD7E2AF8E12500157372 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6F24BD922AF8E38600157372 /* AFTestCase.m in Sources */,
+				6F24BD8D2AF8E15C00157372 /* AFURLSessionManagerTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6F4F08292AF7C0A7009D3568 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -176,6 +258,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		6F24BD872AF8E12500157372 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6F4F082C2AF7C0A7009D3568 /* AFNetworkingLearning */;
+			targetProxy = 6F24BD862AF8E12500157372 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		6F4F08392AF7C0A7009D3568 /* Main.storyboard */ = {
@@ -197,6 +287,40 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		6F24BD882AF8E12500157372 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D3RT2JX4N7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wepie.purchaseTest.AFNetworkingLearningTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AFNetworkingLearning.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AFNetworkingLearning";
+			};
+			name = Debug;
+		};
+		6F24BD892AF8E12500157372 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = D3RT2JX4N7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.wepie.purchaseTest.AFNetworkingLearningTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/AFNetworkingLearning.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/AFNetworkingLearning";
+			};
+			name = Release;
+		};
 		6F4F08442AF7C0A8009D3568 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -370,6 +494,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		6F24BD8A2AF8E12500157372 /* Build configuration list for PBXNativeTarget "AFNetworkingLearningTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				6F24BD882AF8E12500157372 /* Debug */,
+				6F24BD892AF8E12500157372 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		6F4F08282AF7C0A7009D3568 /* Build configuration list for PBXProject "AFNetworkingLearning" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

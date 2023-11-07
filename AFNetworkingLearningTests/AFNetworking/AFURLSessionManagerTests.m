@@ -16,7 +16,7 @@
 @implementation AFURLSessionManagerTests
 
 - (NSURLRequest *)bigImageURLRequest {
-    NSURL *url = [NSURL URLWithString:@"http://scitechdaily.com/images/New-Image-of-the-Galaxy-Messier-94-also-Known-as-NGC-4736.jpg"];
+    NSURL *url = [NSURL URLWithString:@"https://scitechdaily.com/images/New-Image-of-the-Galaxy-Messier-94-also-Known-as-NGC-4736.jpg"];
     NSURLRequest *request = [[NSURLRequest alloc] initWithURL:url cachePolicy:NSURLRequestReloadIgnoringCacheData timeoutInterval:60.0];
     return request;
 }
@@ -39,11 +39,16 @@
     NSURLSessionTask *task;
     
     __weak XCTestExpectation *exception = [self expectationWithDescription:@"Progress should equal 1.0"];
-    task = [self.localManager dataTaskWithRequest:[self bigImageURLRequest] uploadProgress:nil downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
+    task = [self.localManager dataTaskWithRequest:[self bigImageURLRequest] 
+                                   uploadProgress:nil
+                                 downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
         if (downloadProgress.fractionCompleted == 1.0) {
             [exception fulfill];
         }
-    } completionHandler:nil];
+    } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
+        NSLog(@"123132");
+        [exception fulfill];
+    }];
     
     [task resume];
     [self waitForExpectationsWithCommonTimeout];

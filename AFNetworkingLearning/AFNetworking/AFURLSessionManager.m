@@ -55,6 +55,97 @@ typedef void (^AFURLSessionTaskProgressBlock)(NSProgress *);
 
 typedef void (^AFURLSessionTaskCompletionHandler)(NSURLResponse *response, id responseObject, NSError *error);
 
+typedef NSURLSessionAuthChallengeDisposition (^AFURLSessionDidReceiveAuthenticationChallengeBlock)(NSURLSession *session, NSURLAuthenticationChallenge *challenge, NSURLCredential * __autoreleasing *credential);
+
+
+static inline void af_swizzleSelector(Class theClass, SEL originalSelector, SEL swizzleSeletor)
+{
+    Method originalMethod = class_getInstanceMethod(theClass, originalSelector);
+    Method swizzledMethod = class_getInstanceMethod(theClass, swizzleSeletor);
+    method_exchangeImplementations(originalMethod, swizzledMethod);
+}
+
+static inline BOOL af_addMethod(Class theClass, SEL selector, Method method)
+{
+    return class_addMethod(theClass, selector, method_getImplementation(method), method_getTypeEncoding(method));
+}
+
+@interface _AFURLSessionTaskSwizzling : NSObject
+
+@end
+
+@implementation _AFURLSessionTaskSwizzling
+
++ (void)load
+{
+    if (NSClassFromString(@"NSURLSessionTask")) {
+        NSLog(@"_AFURLSessionTaskSwizzling");
+        NSURLSessionConfiguration *configuartion = [NSURLSessionConfiguration ephemeralSessionConfiguration];
+        NSURLSession *session = [NSURLSession sessionWithConfiguration:configuartion];
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wnonnull"
+        NSURLSessionDataTask *localDataTask = [session dataTaskWithURL:nil];
+#pragma clang diagnostic pop
+        IMP originalAFResumeIMP = method_getImplementation(class_getInstanceMethod([self class], @selector(af_resume)));
+        Class currentClass = [localDataTask class];
+        
+        while (class_getInstanceMethod(currentClass, @selector(resume))) {
+            Class superClass = [currentClass superclass];
+            IMP classResumeIMP = method_getImplementation(class_getInstanceMethod(currentClass, @selector(resume)));
+            IMP superClassResumeIMP = method_getImplementation(class_getInstanceMethod(superClass, @selector(resume)));
+            if (classResumeIMP != superClassResumeIMP && originalAFResumeIMP != classResumeIMP) {
+                [self swizzleResumeAndSuspendMethodForClass:currentClass];
+            }
+            currentClass = [currentClass superclass];
+        }
+        [localDataTask cancel];
+        [session finishTasksAndInvalidate];
+    }
+}
+
+
++ (void)swizzleResumeAndSuspendMethodForClass:(Class)theClass
+{
+    Method afResumeMethod = class_getInstanceMethod(self, @selector(af_resume));
+    Method afSuspendMethod = class_getInstanceMethod(self, @selector(af_suspend));
+    
+    if (af_addMethod(theClass, @selector(af_resume), afResumeMethod)) {
+        af_swizzleSelector(theClass, @selector(resume), @selector(af_resume));
+    }
+    
+    if (af_addMethod(theClass, @selector(af_suspend), afSuspendMethod)) {
+        af_swizzleSelector(theClass, @selector(suspend), @selector(af_suspend));
+    }
+}
+
+- (NSURLSessionTaskState)state {
+    NSAssert(NO, @"State Method should be claaed in the actual dummy class");
+    return NSURLSessionTaskStateCanceling;
+}
+
+- (void)af_resume {
+    NSAssert([self respondsToSelector:@selector(state)], @"Does not respond to state");
+    NSURLSessionTaskState state = [self state];
+    [self af_resume];
+    
+    if (state != NSURLSessionTaskStateRunning) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:AFNSURLSessionTaskDidResumeNotification object:self];
+    }
+}
+
+- (void)af_suspend {
+    NSAssert([self respondsToSelector:@selector(state)], @"Does not respond to state");
+    NSURLSessionTaskState state = [self state];
+    [self af_suspend];
+    
+    if (state != NSURLSessionTaskStateSuspended) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:AFNSURLSessionTaskDidSuspendNotification object:self];
+    }
+}
+
+@end
+
+
 #pragma mark -
 @interface AFURLSessionManagerTaskDelegate: NSObject<NSURLSessionTaskDelegate, NSURLSessionDataDelegate, NSURLSessionDownloadDelegate>
 - (instancetype)initWithTask:(NSURLSessionTask *)task;
@@ -251,6 +342,7 @@ didFinishDownloadingToURL:(NSURL *)location
 @property (readwrite, nonatomic, strong) NSOperationQueue *operationQueue;
 @property (readonly, nonatomic, copy) NSString *taskDescriptionForSessionTasks;
 @property (readwrite, nonatomic, strong) NSMutableDictionary *mutableTaskDelegatesKeyedByTaskIdentifier; // key:NSURLSessionTask.taskIdentifier value: datadelegate
+@property (readwrite, nonatomic, copy) AFURLSessionDidReceiveAuthenticationChallengeBlock sessionDidReceiveAuthenticationChallenge;
 
 
 @end
@@ -304,9 +396,92 @@ didFinishDownloadingToURL:(NSURL *)location
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 #pragma mark -
+-(NSURLSession *)session
+{
+    @synchronized (self) {
+        if (!_session) {
+            _session = [NSURLSession sessionWithConfiguration:self.sessionConfiguration delegate:self delegateQueue:self.operationQueue];
+        }
+        return _session;
+    }
+}
+
 - (NSString *)taskDescriptionForSessionTasks {
     return [NSString stringWithFormat:@"%p", self];
 }
+
+
+- (void)setSessionDidReceiveAuthenticationChallengeBlock:(NSURLSessionAuthChallengeDisposition (^)(NSURLSession *session, NSURLAuthenticationChallenge *challenge, NSURLCredential * __autoreleasing *credential))block {
+    self.sessionDidReceiveAuthenticationChallenge = block;
+}
+
+- (BOOL)respondsToSelector:(SEL)selector
+{
+    if (selector == @selector(URLSession:didReceiveChallenge:completionHandler:)) {
+        return self.sessionDidReceiveAuthenticationChallenge != nil;
+    }
+    
+    return [[self class] instancesRespondToSelector:selector];
+}
+
+#pragma mark - NSURLSessionDelegate
+- (void)URLSession:(NSURLSession *)session didReceiveChallenge:(NSURLAuthenticationChallenge *)challenge completionHandler:(void (^)(NSURLSessionAuthChallengeDisposition, NSURLCredential * _Nullable))completionHandler
+{
+    NSAssert(self.sessionDidReceiveAuthenticationChallenge != nil, @"`respondsToSelector:` implementation forces `URLSession:didReceiveChallenge:completionHandler:` to be called only if `self.sessionDidReceiveAuthenticationChallenge` is not nil");
+
+    NSURLCredential *credential = nil;
+    NSURLSessionAuthChallengeDisposition disposition = self.sessionDidReceiveAuthenticationChallenge(session, challenge, &credential);
+
+    if (completionHandler) {
+        completionHandler(disposition, credential);
+    }
+}
+
+
+
+- (void)URLSession:(NSURLSession *)session
+              task:(NSURLSessionTask *)task
+didCompleteWithError:(NSError *)error
+{
+    NSLog(@"didCompleteWithError");
+//    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:task];
+
+//    // delegate may be nil when completing a task in the background
+//    if (delegate) {
+//        [delegate URLSession:session task:task didCompleteWithError:error];
+//
+//        [self removeDelegateForTask:task];
+//    }
+//
+//    if (self.taskDidComplete) {
+//        self.taskDidComplete(session, task, error);
+//    }
+}
+
+- (void)taskDidResume:(NSNotification *)notification
+{
+    NSURLSessionTask *task = notification.object;
+    if ([task respondsToSelector:@selector(taskDescription)]) {
+        if ([task.taskDescription isEqualToString:self.taskDescriptionForSessionTasks]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidResumeNotification object:task];
+            });
+        }
+    }
+}
+
+- (void)taskDidSuspend:(NSNotification *)notification
+{
+    NSURLSessionTask *task = notification.object;
+    if ([task respondsToSelector:@selector(taskDescription)]) {
+        if ([task.taskDescription isEqualToString:self.taskDescriptionForSessionTasks]) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidSuspendNotification object:task];
+            });
+        }
+    }
+}
+
 #pragma mark -
 - (void)addNotificationObserverForTask:(NSURLSessionTask *)task {
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(taskDidResume:) name:AFNSURLSessionTaskDidResumeNotification object:task];

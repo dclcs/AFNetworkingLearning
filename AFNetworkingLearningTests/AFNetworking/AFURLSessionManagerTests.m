@@ -46,8 +46,9 @@
             [exception fulfill];
         }
     } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-        NSLog(@"123132");
-        [exception fulfill];
+        if (!error) {
+            [exception fulfill];
+        }
     }];
     
     [task resume];

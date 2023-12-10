@@ -271,7 +271,7 @@ didCompleteWithError:(NSError *)error
         
         dispatch_async(url_session_manager_processing_queue(), ^{
             NSError *serializationError = nil;
-            //TODO: 任务完成
+            responseObject = [manager.responseSerializer responseObjectForResponse:task.response data:data error:&serializationError];
             
             if (self.downloadFileURL) {
                 responseObject = self.downloadFileURL;
@@ -402,6 +402,8 @@ didFinishDownloadingToURL:(NSURL *)location
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.maxConcurrentOperationCount = 1;
     
+    self.responseSerializer = [AFJSONResponseSerializer serializer];
+    
     /// 2. 初始化字典可变字典 task的id作为key， 代理对象作为value
     self.mutableTaskDelegatesKeyedByTaskIdentifier = [[NSMutableDictionary alloc] init];
     self.lock = [[NSLock alloc] init];
@@ -515,6 +517,15 @@ didCompleteWithError:(NSError *)error
             });
         }
     }
+}
+
+
+#pragma mark -
+- (void)setResponseSerializer:(id<AFURLResponseSerialization>)responseSerializer
+{
+    NSParameterAssert(responseSerializer);
+    
+    _responseSerializer = responseSerializer;
 }
 
 #pragma mark -

@@ -6,6 +6,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AFURLResponseSerialization.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -15,6 +16,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property (readonly, nonatomic, strong) NSURLSession *session;
 
 @property (readonly, nonatomic, strong) NSOperationQueue *operationQueue;
+
+@property (nonatomic, strong) id <AFURLResponseSerialization> responseSerializer;
+
 
 // 初始化方法
 - (instancetype)initWithSessionConfiguration:(nullable NSURLSessionConfiguration *)configuartion NS_DESIGNATED_INITIALIZER;

@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		6F24BD8D2AF8E15C00157372 /* AFURLSessionManagerTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F24BD8C2AF8E15C00157372 /* AFURLSessionManagerTests.m */; };
 		6F24BD922AF8E38600157372 /* AFTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F24BD912AF8E38600157372 /* AFTestCase.m */; };
+		6F31E06C2B25EFA000C9985E /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F31E06B2B25EFA000C9985E /* AFURLResponseSerialization.m */; };
 		6F4F08322AF7C0A7009D3568 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4F08312AF7C0A7009D3568 /* AppDelegate.m */; };
 		6F4F08352AF7C0A7009D3568 /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4F08342AF7C0A7009D3568 /* SceneDelegate.m */; };
 		6F4F08382AF7C0A7009D3568 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6F4F08372AF7C0A7009D3568 /* ViewController.m */; };
@@ -35,6 +36,8 @@
 		6F24BD8C2AF8E15C00157372 /* AFURLSessionManagerTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManagerTests.m; sourceTree = "<group>"; };
 		6F24BD902AF8E38600157372 /* AFTestCase.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFTestCase.h; sourceTree = "<group>"; };
 		6F24BD912AF8E38600157372 /* AFTestCase.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFTestCase.m; sourceTree = "<group>"; };
+		6F31E06A2B25EFA000C9985E /* AFURLResponseSerialization.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AFURLResponseSerialization.h; sourceTree = "<group>"; };
+		6F31E06B2B25EFA000C9985E /* AFURLResponseSerialization.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AFURLResponseSerialization.m; sourceTree = "<group>"; };
 		6F4F082D2AF7C0A7009D3568 /* AFNetworkingLearning.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AFNetworkingLearning.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6F4F08302AF7C0A7009D3568 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		6F4F08312AF7C0A7009D3568 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -135,6 +138,8 @@
 				6F4F084B2AF7C0D8009D3568 /* AFHTTPSessionManager.m */,
 				6F4F084D2AF7C101009D3568 /* AFURLSessionManager.h */,
 				6F4F084E2AF7C101009D3568 /* AFURLSessionManager.m */,
+				6F31E06A2B25EFA000C9985E /* AFURLResponseSerialization.h */,
+				6F31E06B2B25EFA000C9985E /* AFURLResponseSerialization.m */,
 			);
 			path = AFNetworking;
 			sourceTree = "<group>";
@@ -253,6 +258,7 @@
 				6F4F084C2AF7C0D8009D3568 /* AFHTTPSessionManager.m in Sources */,
 				6F4F084F2AF7C101009D3568 /* AFURLSessionManager.m in Sources */,
 				6F4F08432AF7C0A8009D3568 /* main.m in Sources */,
+				6F31E06C2B25EFA000C9985E /* AFURLResponseSerialization.m in Sources */,
 				6F4F08352AF7C0A7009D3568 /* SceneDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

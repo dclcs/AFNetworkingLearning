@@ -449,6 +449,15 @@ didFinishDownloadingToURL:(NSURL *)location
 }
 
 
+#pragma mark -
+- (NSProgress *)uploadProgressForTask:(NSURLSessionTask *)task {
+    return [[self delegateForTask:task] uploadProgress];
+}
+
+- (NSProgress *)downloadProgressForTask:(NSURLSessionTask *)task {
+    return [[self delegateForTask:task] downloadProgress];
+}
+
 - (void)setSessionDidReceiveAuthenticationChallengeBlock:(NSURLSessionAuthChallengeDisposition (^)(NSURLSession *session, NSURLAuthenticationChallenge *challenge, NSURLCredential * __autoreleasing *credential))block {
     self.sessionDidReceiveAuthenticationChallenge = block;
 }

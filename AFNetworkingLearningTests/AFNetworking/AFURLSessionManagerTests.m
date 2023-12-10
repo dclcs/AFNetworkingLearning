@@ -54,4 +54,25 @@
     [task resume];
     [self waitForExpectationsWithCommonTimeout];
 }
+
+
+- (void)testDataTaskDownloadProgressCanBeKVOd {
+    NSURLSessionDataTask *task;
+
+    task = [self.localManager
+            dataTaskWithRequest:[self bigImageURLRequest]
+            uploadProgress:nil
+            downloadProgress:nil
+            completionHandler:nil];
+
+        NSProgress *progress = [self.localManager downloadProgressForTask:task];
+        [self keyValueObservingExpectationForObject:progress keyPath:@"fractionCompleted"
+                                            handler:^BOOL(NSProgress  *observedProgress, NSDictionary * _Nonnull change) {
+                                                double new = [change[@"new"] doubleValue];
+                                                double old = [change[@"old"] doubleValue];
+                                                return new == 1.0 && old != 0.0;
+                                            }];
+    [task resume];
+    [self waitForExpectationsWithCommonTimeout];
+}
 @end

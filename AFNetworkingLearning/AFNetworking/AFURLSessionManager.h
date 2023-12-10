@@ -23,6 +23,9 @@ NS_ASSUME_NONNULL_BEGIN
 // 初始化方法
 - (instancetype)initWithSessionConfiguration:(nullable NSURLSessionConfiguration *)configuartion NS_DESIGNATED_INITIALIZER;
 
+- (nullable NSProgress *)downloadProgressForTask:(NSURLSessionTask *)task;
+
+- (nullable NSProgress *)uploadProgressForTask:(NSURLSessionTask *)task;
 
 
 - (NSURLSessionDataTask *)dataTaskWithRequest:(NSURLRequest *)request

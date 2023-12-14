@@ -70,8 +70,26 @@
                                             handler:^BOOL(NSProgress  *observedProgress, NSDictionary * _Nonnull change) {
                                                 double new = [change[@"new"] doubleValue];
                                                 double old = [change[@"old"] doubleValue];
+                                                NSLog(@"new = %f old = %f", new, old);
                                                 return new == 1.0 && old != 0.0;
                                             }];
+    [task resume];
+    [self waitForExpectationsWithCommonTimeout];
+}
+
+
+- (void)testDownloadTaskDoesReportProgress {
+    __weak XCTestExpectation *expectation = [self expectationWithDescription:@"Progress should equal 1.0"];
+    NSURLSessionTask *task;
+    task = [self.localManager
+            downloadTaskWithRequest:[self bigImageURLRequest]
+            progress:^(NSProgress * _Nonnull downloadProgress) {
+                if (downloadProgress.fractionCompleted == 1.0) {
+                    [expectation fulfill];
+                }
+            }
+            destination:nil
+            completionHandler:nil];
     [task resume];
     [self waitForExpectationsWithCommonTimeout];
 }

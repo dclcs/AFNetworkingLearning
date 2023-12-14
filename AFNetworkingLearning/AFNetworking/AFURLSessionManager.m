@@ -485,7 +485,6 @@ didFinishDownloadingToURL:(NSURL *)location
 }
 
 
-
 - (void)URLSession:(NSURLSession *)session
               task:(NSURLSessionTask *)task
 didCompleteWithError:(NSError *)error
@@ -503,6 +502,50 @@ didCompleteWithError:(NSError *)error
         self.taskDidComplete(session, task, error);
     }
 }
+
+#pragma mark - NSURLSessionDataDelegate
+- (void)URLSession:(NSURLSession *)session
+          dataTask:(NSURLSessionDataTask *)dataTask
+didReceiveResponse:(NSURLResponse *)response
+ completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
+{
+    NSURLSessionResponseDisposition disposition = NSURLSessionResponseAllow;
+    //TODO: add dataTaskDidBecomeDownloadTask
+    
+    if (completionHandler) {
+        completionHandler(disposition);
+    }
+}
+
+
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didBecomeDownloadTask:(NSURLSessionDownloadTask *)downloadTask
+{
+    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:dataTask];
+    if (delegate) {
+        [self removeDelegateForTask:dataTask];
+        [self setDelegate:delegate forTask:downloadTask];
+    }
+    
+    //TODO: add dataTaskDidBecomeDownloadTask
+}
+
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask didReceiveData:(NSData *)data
+{
+    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:dataTask];
+    [delegate URLSession:session dataTask:dataTask didReceiveData:data];
+    
+    //TODO: add dataTaskDidRecieveData
+}
+
+- (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask willCacheResponse:(NSCachedURLResponse *)proposedResponse completionHandler:(void (^)(NSCachedURLResponse * _Nullable))completionHandler
+{
+    //TODO: add taskwillcacheresponse
+}
+
+
+
 
 - (void)taskDidResume:(NSNotification *)notification
 {

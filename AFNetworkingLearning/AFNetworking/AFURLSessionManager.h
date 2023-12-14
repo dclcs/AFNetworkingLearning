@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface AFURLSessionManager : NSObject<NSURLSessionDelegate,NSCopying>
+@interface AFURLSessionManager : NSObject<NSURLSessionDelegate,NSURLSessionDataDelegate,NSCopying>
 
 
 @property (readonly, nonatomic, strong) NSURLSession *session;

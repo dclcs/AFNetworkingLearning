@@ -67,6 +67,18 @@ typedef NSInputStream * (^AFURLSessionTaskNeedNewBodyStreamBlock)(NSURLSession *
 typedef void (^AFURLSessionTaskDidSendBodyDataBlock)(NSURLSession *session, NSURLSessionTask *task, int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend);
 typedef void (^AFURLSessionTaskDidCompleteBlock)(NSURLSession *session, NSURLSessionTask *task, NSError *error);
 
+typedef NSURLSessionResponseDisposition (^AFURLSessionDataTaskDidReceiveResponseBlock)(NSURLSession *session, NSURLSessionDataTask *dataTask, NSURLResponse *response);
+typedef void (^AFURLSessionDataTaskDidBecomeDownloadTaskBlock)(NSURLSession *session, NSURLSessionDataTask *dataTask, NSURLSessionDownloadTask *downloadTask);
+typedef void (^AFURLSessionDataTaskDidReceiveDataBlock)(NSURLSession *session, NSURLSessionDataTask *dataTask, NSData *data);
+typedef NSCachedURLResponse * (^AFURLSessionDataTaskWillCacheResponseBlock)(NSURLSession *session, NSURLSessionDataTask *dataTask, NSCachedURLResponse *proposedResponse);
+
+typedef NSURL * (^AFURLSessionDownloadTaskDidFinishDownloadingBlock)(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, NSURL *location);
+typedef void (^AFURLSessionDownloadTaskDidWriteDataBlock)(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t bytesWritten, int64_t totalBytesWritten, int64_t totalBytesExpectedToWrite);
+typedef void (^AFURLSessionDownloadTaskDidResumeBlock)(NSURLSession *session, NSURLSessionDownloadTask *downloadTask, int64_t fileOffset, int64_t expectedTotalBytes);
+typedef void (^AFURLSessionTaskProgressBlock)(NSProgress *);
+
+typedef void (^AFURLSessionTaskCompletionHandler)(NSURLResponse *response, id responseObject, NSError *error);
+
 static inline void af_swizzleSelector(Class theClass, SEL originalSelector, SEL swizzleSeletor)
 {
     Method originalMethod = class_getInstanceMethod(theClass, originalSelector);
@@ -377,6 +389,13 @@ didFinishDownloadingToURL:(NSURL *)location
 @property (readwrite, nonatomic, copy) AFURLSessionTaskDidCompleteBlock taskDidComplete;
 
 
+@property (readwrite, nonatomic, copy) AFURLSessionDataTaskDidReceiveResponseBlock dataTaskDidReceiveResponse;
+@property (readwrite, nonatomic, copy) AFURLSessionDataTaskDidBecomeDownloadTaskBlock dataTaskDidBecomeDownloadTask;
+@property (readwrite, nonatomic, copy) AFURLSessionDataTaskDidReceiveDataBlock dataTaskDidReceiveData;
+@property (readwrite, nonatomic, copy) AFURLSessionDataTaskWillCacheResponseBlock dataTaskWillCacheResponse;
+@property (readwrite, nonatomic, copy) AFURLSessionDownloadTaskDidFinishDownloadingBlock downloadTaskDidFinishDownloading;
+@property (readwrite, nonatomic, copy) AFURLSessionDownloadTaskDidWriteDataBlock downloadTaskDidWriteData;
+@property (readwrite, nonatomic, copy) AFURLSessionDownloadTaskDidResumeBlock downloadTaskDidResume;
 @end
 
 
@@ -510,8 +529,10 @@ didReceiveResponse:(NSURLResponse *)response
  completionHandler:(void (^)(NSURLSessionResponseDisposition disposition))completionHandler
 {
     NSURLSessionResponseDisposition disposition = NSURLSessionResponseAllow;
-    //TODO: add dataTaskDidBecomeDownloadTask
     
+    if (self.dataTaskDidReceiveResponse) {
+        disposition = self.dataTaskDidReceiveResponse(session, dataTask, response);
+    }
     if (completionHandler) {
         completionHandler(disposition);
     }
@@ -527,7 +548,9 @@ didReceiveResponse:(NSURLResponse *)response
         [self setDelegate:delegate forTask:downloadTask];
     }
     
-    //TODO: add dataTaskDidBecomeDownloadTask
+    if (self.dataTaskDidBecomeDownloadTask) {
+        self.dataTaskDidBecomeDownloadTask(session, dataTask, downloadTask);
+    }
 }
 
 
@@ -536,15 +559,82 @@ didReceiveResponse:(NSURLResponse *)response
     AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:dataTask];
     [delegate URLSession:session dataTask:dataTask didReceiveData:data];
     
-    //TODO: add dataTaskDidRecieveData
+    if (self.dataTaskDidReceiveData) {
+        self.dataTaskDidReceiveData(session, dataTask, data);
+    }
 }
 
 - (void)URLSession:(NSURLSession *)session dataTask:(NSURLSessionDataTask *)dataTask willCacheResponse:(NSCachedURLResponse *)proposedResponse completionHandler:(void (^)(NSCachedURLResponse * _Nullable))completionHandler
 {
-    //TODO: add taskwillcacheresponse
+    NSCachedURLResponse *cachedResponse = proposedResponse;
+    
+    if (self.dataTaskWillCacheResponse) {
+        cachedResponse = self.dataTaskWillCacheResponse(session, dataTask, proposedResponse);
+    }
+    
+    if (completionHandler) {
+        completionHandler(cachedResponse);
+    }
 }
 
 
+#pragma mark - NSURLSessionDownloadDelegate
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didFinishDownloadingToURL:(NSURL *)location
+{
+    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:downloadTask];
+    if (self.downloadTaskDidFinishDownloading) {
+        NSURL *fileURL = self.downloadTaskDidFinishDownloading(session, downloadTask, location);
+        if (fileURL) {
+            delegate.downloadFileURL = fileURL;
+            NSError *error = nil;
+            
+            if (![[NSFileManager defaultManager] moveItemAtURL:location toURL:fileURL error:&error]) {
+                [[NSNotificationCenter defaultCenter] postNotificationName:AFURLSessionDownloadTaskDidFailToMoveFileNotification object:downloadTask userInfo:error.userInfo];
+            } else {
+                [[NSNotificationCenter defaultCenter] postNotificationName:AFURLSessionDownloadTaskDidMoveFileSuccessfullyNotification object:downloadTask userInfo:nil];
+            }
+            
+            return;
+        }
+    }
+    
+    if (delegate) {
+        [delegate URLSession:session downloadTask:downloadTask didFinishDownloadingToURL:location];
+    }
+}
+
+
+- (void)URLSession:(NSURLSession *)session downloadTask:(NSURLSessionDownloadTask *)downloadTask didWriteData:(int64_t)bytesWritten totalBytesWritten:(int64_t)totalBytesWritten totalBytesExpectedToWrite:(int64_t)totalBytesExpectedToWrite
+{
+    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:downloadTask];
+    
+    if (delegate) {
+        [delegate URLSession:session downloadTask:downloadTask didWriteData:bytesWritten totalBytesWritten:totalBytesWritten totalBytesExpectedToWrite:totalBytesExpectedToWrite];
+    }
+    
+    if (self.downloadTaskDidWriteData) {
+        self.downloadTaskDidWriteData(session, downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite);
+    }
+}
+
+
+- (void)URLSession:(NSURLSession *)session
+      downloadTask:(NSURLSessionDownloadTask *)downloadTask
+ didResumeAtOffset:(int64_t)fileOffset
+expectedTotalBytes:(int64_t)expectedTotalBytes
+{
+    
+    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:downloadTask];
+    
+    if (delegate) {
+        [delegate URLSession:session downloadTask:downloadTask didResumeAtOffset:fileOffset expectedTotalBytes:expectedTotalBytes];
+    }
+
+    if (self.downloadTaskDidResume) {
+        self.downloadTaskDidResume(session, downloadTask, fileOffset, expectedTotalBytes);
+    }
+}
 
 
 - (void)taskDidResume:(NSNotification *)notification

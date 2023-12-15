@@ -253,7 +253,7 @@ didCompleteWithError:(NSError *)error
     
     __block id responseObject = nil;
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
-//    userInfo[AFNetworkingTaskDidCompleteResponseSerializerKey] = manager.responseSerializer;
+    userInfo[AFNetworkingTaskDidCompleteResponseSerializerKey] = manager.responseSerializer;
     
     NSData *data = nil;
     if (self.mutableData) {
@@ -415,21 +415,18 @@ didFinishDownloadingToURL:(NSURL *)location
     if (!configuration) {
         configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
     }
-    /// 初始化操作队列，并设置串行队列，设置最大并发数为1
+    
     self.sessionConfiguration = configuration;
-    /// ⚠️⚠️⚠️
+    
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.maxConcurrentOperationCount = 1;
     
     self.responseSerializer = [AFJSONResponseSerializer serializer];
     
-    /// 2. 初始化字典可变字典 task的id作为key， 代理对象作为value
     self.mutableTaskDelegatesKeyedByTaskIdentifier = [[NSMutableDictionary alloc] init];
     self.lock = [[NSLock alloc] init];
     self.lock.name = AFURLSessionManagerLockName;
     
-    /// 3. 获取所有的task，设置一遍delegate用来异步的获取当前的session的所有未完成的任务
-    /// getTasksWithCompletionHandler : 异步的返回这个session的所有内容
     [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
         for (NSURLSessionDataTask *task in dataTasks) {
             [self addDelegateForDataTask:task uploadProgress:nil downloadProgress:nil completionHandler:nil];

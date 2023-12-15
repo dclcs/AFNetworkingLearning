@@ -23,10 +23,10 @@
                                    uploadProgress:nil
                                  downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
         if (downloadProgress.fractionCompleted == 1.0) {
-            NSLog(@"123132");
+
         }
     } completionHandler:^(NSURLResponse * _Nonnull response, id  _Nullable responseObject, NSError * _Nullable error) {
-        NSLog(@"123132");
+
     }];
     [task resume];
 }

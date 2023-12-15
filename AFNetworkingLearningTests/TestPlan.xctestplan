@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "6A569F96-A926-488C-BB29-2B8ED70DE0C6",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:AFNetworkingLearning.xcodeproj",
+        "identifier" : "6F24BD812AF8E12500157372",
+        "name" : "AFNetworkingLearningTests"
+      }
+    }
+  ],
+  "version" : 1
+}

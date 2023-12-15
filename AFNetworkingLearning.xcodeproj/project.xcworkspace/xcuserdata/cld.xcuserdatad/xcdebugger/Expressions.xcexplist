@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "-[AFURLSessionManagerTests testUploadTaskDoesReportProgress]:AFURLSessionManagerTests.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[AFURLSessionManagerTests testDidResumeNotificationIsReceivedByBackgroundDataTaskAfterResume]:AFURLSessionManagerTests.m">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

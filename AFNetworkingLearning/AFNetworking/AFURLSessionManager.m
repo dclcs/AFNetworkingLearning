@@ -387,6 +387,7 @@ didFinishDownloadingToURL:(NSURL *)location
 @property (readwrite, nonatomic, strong) NSMutableDictionary *mutableTaskDelegatesKeyedByTaskIdentifier; // key:NSURLSessionTask.taskIdentifier value: datadelegate
 @property (readwrite, nonatomic, copy) AFURLSessionDidReceiveAuthenticationChallengeBlock sessionDidReceiveAuthenticationChallenge;
 @property (readwrite, nonatomic, copy) AFURLSessionTaskDidCompleteBlock taskDidComplete;
+@property (readwrite, nonatomic, copy) AFURLSessionTaskDidSendBodyDataBlock taskDidSendBodyData;
 
 
 @property (readwrite, nonatomic, copy) AFURLSessionDataTaskDidReceiveResponseBlock dataTaskDidReceiveResponse;
@@ -574,6 +575,31 @@ didReceiveResponse:(NSURLResponse *)response
     }
 }
 
+#pragma mark - NSURLSessionTaskDelegate
+- (void)URLSession:(NSURLSession *)session task:(NSURLSessionTask *)task
+                                didSendBodyData:(int64_t)bytesSent
+                                 totalBytesSent:(int64_t)totalBytesSent
+                       totalBytesExpectedToSend:(int64_t)totalBytesExpectedToSend
+{
+    int64_t totalUnitCount = totalBytesExpectedToSend;
+    if (totalUnitCount == NSURLSessionTransferSizeUnknown) {
+        NSString *contentLength = [task.originalRequest valueForHTTPHeaderField:@"Content-Length"];
+        if (contentLength) {
+            totalUnitCount = (int64_t) [contentLength longLongValue];
+        }
+    }
+    
+    AFURLSessionManagerTaskDelegate *delegate = [self delegateForTask:task];
+    
+    if (delegate) {
+        [delegate URLSession:session task:task didSendBodyData:bytesSent totalBytesSent:totalBytesSent totalBytesExpectedToSend:totalBytesExpectedToSend];
+    }
+
+    if (self.taskDidSendBodyData) {
+        self.taskDidSendBodyData(session, task, bytesSent, totalBytesSent, totalUnitCount);
+    }
+}
+
 
 #pragma mark - NSURLSessionDownloadDelegate
 
@@ -709,6 +735,62 @@ expectedTotalBytes:(int64_t)expectedTotalBytes
     [self removeNotificationObserverForTask:task];
     [self.mutableTaskDelegatesKeyedByTaskIdentifier removeObjectForKey:@(task.taskIdentifier)];
     [self.lock unlock];
+}
+
+
+#pragma mark -
+
+- (NSArray *)tasksForKeyPath:(NSString *)keyPath {
+    __block NSArray *tasks = nil;
+    dispatch_semaphore_t semaphore = dispatch_semaphore_create(0);
+    [self.session getTasksWithCompletionHandler:^(NSArray<NSURLSessionDataTask *> * _Nonnull dataTasks, NSArray<NSURLSessionUploadTask *> * _Nonnull uploadTasks, NSArray<NSURLSessionDownloadTask *> * _Nonnull downloadTasks) {
+        if ([keyPath isEqualToString:NSStringFromSelector(@selector(dataTasks))]) {
+            tasks = dataTasks;
+        } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(uploadTasks))]) {
+            tasks = uploadTasks;
+        } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(downloadTasks))]) {
+            tasks = downloadTasks;
+        } else if ([keyPath isEqualToString:NSStringFromSelector(@selector(tasks))]) {
+            tasks = [@[dataTasks, uploadTasks, downloadTasks] valueForKey:@"@unionOfArray.self"];
+        }
+        
+        dispatch_semaphore_signal(semaphore);
+    }];
+   
+    dispatch_semaphore_wait(semaphore, DISPATCH_TIME_FOREVER);
+
+    return tasks;
+}
+
+- (NSArray *)tasks {
+    return [self tasksForKeyPath:NSStringFromSelector(_cmd)];
+}
+
+- (NSArray *)dataTasks {
+    return [self tasksForKeyPath:NSStringFromSelector(_cmd)];
+}
+
+- (NSArray *)uploadTasks {
+    return [self tasksForKeyPath:NSStringFromSelector(_cmd)];
+}
+
+- (NSArray *)downloadTasks {
+    return [self tasksForKeyPath:NSStringFromSelector(_cmd)];
+}
+
+#pragma mark -
+
+- (void)invalidateSessionCancelingTasks:(BOOL)cancelPendingTasks resetSession:(BOOL)resetSession
+{
+    if (cancelPendingTasks) {
+        [self.session invalidateAndCancel];
+    } else {
+        [self.session finishTasksAndInvalidate];
+    }
+    
+    if (resetSession) {
+        self.session = nil;
+    }
 }
 
 #pragma mark -

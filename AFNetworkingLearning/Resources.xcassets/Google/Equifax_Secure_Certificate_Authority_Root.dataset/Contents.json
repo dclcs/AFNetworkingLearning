@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "Equifax_Secure_Certificate_Authority_Root.cer",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

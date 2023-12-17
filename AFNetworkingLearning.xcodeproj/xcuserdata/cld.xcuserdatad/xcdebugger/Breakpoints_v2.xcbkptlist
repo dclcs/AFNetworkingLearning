@@ -292,5 +292,161 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "C70AF770-1845-49C3-9E2A-92FE52661D60"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "73"
+            endingLineNumber = "73"
+            landmarkName = "-testThatAFHTTPRequestSerializationSerializesPOSTRequestsProperly"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "DD15BABE-8102-4925-B9D9-8F879C4CB9D0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "158"
+            endingLineNumber = "158"
+            landmarkName = "-testThatValueForHTTPHeaderFieldReturnsSetValue"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "DD15BABE-8102-4925-B9D9-8F879C4CB9D0 - 1b4867c49c0a8146"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AFHTTPRequestSerializationTests testThatValueForHTTPHeaderFieldReturnsSetValue]"
+                  moduleName = "AFNetworkingLearningTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cld/Documents/workspace/AFNetworkingLearning/AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
+                  offsetFromSymbolStart = "204">
+               </Location>
+               <Location
+                  uuid = "DD15BABE-8102-4925-B9D9-8F879C4CB9D0 - 1b4867c49c0a8146"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AFHTTPRequestSerializationTests testThatValueForHTTPHeaderFieldReturnsSetValue]"
+                  moduleName = "AFNetworkingLearningTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cld/Documents/workspace/AFNetworkingLearning/AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
+                  offsetFromSymbolStart = "492">
+               </Location>
+               <Location
+                  uuid = "DD15BABE-8102-4925-B9D9-8F879C4CB9D0 - 1b4867c49c0a8146"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AFHTTPRequestSerializationTests testThatValueForHTTPHeaderFieldReturnsSetValue]"
+                  moduleName = "AFNetworkingLearningTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cld/Documents/workspace/AFNetworkingLearning/AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
+                  offsetFromSymbolStart = "544">
+               </Location>
+               <Location
+                  uuid = "DD15BABE-8102-4925-B9D9-8F879C4CB9D0 - 1b4867c49c0a8146"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AFHTTPRequestSerializationTests testThatValueForHTTPHeaderFieldReturnsSetValue]"
+                  moduleName = "AFNetworkingLearningTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cld/Documents/workspace/AFNetworkingLearning/AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
+                  offsetFromSymbolStart = "608">
+               </Location>
+               <Location
+                  uuid = "DD15BABE-8102-4925-B9D9-8F879C4CB9D0 - 1b4867c49c0a8146"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AFHTTPRequestSerializationTests testThatValueForHTTPHeaderFieldReturnsSetValue]"
+                  moduleName = "AFNetworkingLearningTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cld/Documents/workspace/AFNetworkingLearning/AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
+                  offsetFromSymbolStart = "768">
+               </Location>
+               <Location
+                  uuid = "DD15BABE-8102-4925-B9D9-8F879C4CB9D0 - 1b4867c49c0a8146"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[AFHTTPRequestSerializationTests testThatValueForHTTPHeaderFieldReturnsSetValue]"
+                  moduleName = "AFNetworkingLearningTests"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cld/Documents/workspace/AFNetworkingLearning/AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "158"
+                  endingLineNumber = "158"
+                  offsetFromSymbolStart = "924">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9771C9B2-4175-46E9-8866-D59BEC121957"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "157"
+            endingLineNumber = "157"
+            landmarkName = "-testThatValueForHTTPHeaderFieldReturnsSetValue"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "CE985149-813B-40CD-B57E-25A2C6297C1E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "144"
+            endingLineNumber = "144"
+            landmarkName = "-testThatAFHTTPRequestSerialiationSerializesMIMETypeCorrectly"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

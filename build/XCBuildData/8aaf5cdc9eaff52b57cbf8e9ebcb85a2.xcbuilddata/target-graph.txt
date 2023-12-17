@@ -1,0 +1,4 @@
+Target dependency graph (2 targets)
+Target 'AFNetworkingLearningTests' in project 'AFNetworkingLearning'
+➜ Explicit dependency on target 'AFNetworkingLearning' in project 'AFNetworkingLearning'
+Target 'AFNetworkingLearning' in project 'AFNetworkingLearning' (no dependencies)

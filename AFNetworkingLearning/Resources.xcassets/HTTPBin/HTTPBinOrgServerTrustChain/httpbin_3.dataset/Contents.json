@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "httpbin_3.cer",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

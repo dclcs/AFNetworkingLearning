@@ -1,0 +1,12 @@
+{
+  "data" : [
+    {
+      "filename" : "google.com.cer",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

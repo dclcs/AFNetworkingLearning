@@ -171,7 +171,7 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
         [acceptLanguagComponents addObject:[NSString stringWithFormat:@"%@;q=%0.1g",obj,q]];
         *stop = q <= 0.5f;
     }];
-    [self setValue:[acceptLanguagComponents componentsJoinedByString:@", "]  forKey:@"Accept-Language"];
+    [self setValue:[acceptLanguagComponents componentsJoinedByString:@", "]  forHTTPHeaderField:@"Accept-Language"];
     
     NSString *userAgent = nil;
     
@@ -186,7 +186,7 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
                 userAgent = mutableUserAgent;
             }
         }
-        [self setValue:userAgent forKey:@"User-Agent"];
+        [self setValue:userAgent forHTTPHeaderField:@"User-Agent"];
     }
     
     
@@ -220,7 +220,15 @@ forHTTPHeaderField:(NSString *)field
     });
 }
 
-- (NSMutableURLRequest *)requestWithMethod:(NSString *)method 
+- (NSString *)valueForHTTPHeaderField:(NSString *)field {
+    NSString __block *value;
+    dispatch_sync(self.requestHeaderModificationQueue, ^{
+        value = [self.mutableHTTPRequestHeaders valueForKey:field];
+    });
+    return value;
+}
+
+- (NSMutableURLRequest *)requestWithMethod:(NSString *)method
                                  URLString:(NSString *)URLString
                                 parameters:(id)parameters
                                      error:(NSError * _Nullable __autoreleasing *)error
@@ -242,6 +250,18 @@ forHTTPHeaderField:(NSString *)field
     mutableRequest = [[self requestBySerializingRequest:mutableRequest withParameters:parameters error:error] mutableCopy];
     
     return mutableRequest;
+}
+
+#pragma mark -
+#pragma mark -
+
+- (void)setQueryStringSerializationWithStyle:(AFHTTPRequestQueryStringSerializationStyle)style {
+    self.queryStringSerializationStyle = style;
+    self.queryStringSerialization = nil;
+}
+
+- (void)setQueryStringSerializationWithBlock:(NSString *(^)(NSURLRequest *, id, NSError *__autoreleasing *))block {
+    self.queryStringSerialization = block;
 }
 
 #pragma mark -

@@ -436,7 +436,7 @@
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
             uuid = "CE985149-813B-40CD-B57E-25A2C6297C1E"
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "AFNetworkingLearningTests/AFNetworking/AFHTTPRequestSerializationTests.m"
@@ -446,6 +446,102 @@
             endingLineNumber = "144"
             landmarkName = "-testThatAFHTTPRequestSerialiationSerializesMIMETypeCorrectly"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A2179E2D-7B61-41C5-89C1-CC06533C08D7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AFNetworkingLearning/AFNetworking/AFURLRequestSerialization.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "AFPercentEscapedStringFromString(string)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6564F0DD-A16E-4001-B187-E1D83B19AA91"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AFNetworkingLearning/AFNetworking/AFURLRequestSerialization.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
+            landmarkName = "AFQueryStringFromParameters(parameters)"
+            landmarkType = "9">
+            <Locations>
+               <Location
+                  uuid = "6564F0DD-A16E-4001-B187-E1D83B19AA91 - 36d121db56b0360f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AFQueryStringFromParameters"
+                  moduleName = "AFNetworkingLearning"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cld/Documents/workspace/AFNetworkingLearning/AFNetworkingLearning/AFNetworking/AFURLRequestSerialization.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "128">
+               </Location>
+               <Location
+                  uuid = "6564F0DD-A16E-4001-B187-E1D83B19AA91 - 36d121db56b0360f"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "AFQueryStringFromParameters"
+                  moduleName = "AFNetworkingLearning"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/cld/Documents/workspace/AFNetworkingLearning/AFNetworkingLearning/AFNetworking/AFURLRequestSerialization.m"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "103"
+                  endingLineNumber = "103"
+                  offsetFromSymbolStart = "132">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "6D5CD2E2-2670-406C-AA83-D08DA01EF9B7"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AFNetworkingLearning/AFNetworking/AFURLRequestSerialization.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "115"
+            endingLineNumber = "115"
+            landmarkName = "AFQueryStringPairsFromKeyAndValue(key, value)"
+            landmarkType = "9">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "862B776B-550F-4962-A6FE-F905613BC4D2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "AFNetworkingLearning/AFNetworking/AFURLRequestSerialization.m"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "123"
+            endingLineNumber = "123"
+            landmarkName = "AFQueryStringPairsFromKeyAndValue(key, value)"
+            landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

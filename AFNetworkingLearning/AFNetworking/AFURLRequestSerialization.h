@@ -37,8 +37,7 @@ typedef NS_ENUM(NSUInteger, AFHTTPRequestQueryStringSerializationStyle) {
 
 + (instancetype)serializer;
 
-- (void)setValue:(nullable NSString *)value
-forHTTPHeaderField:(NSString *)field;
+- (void)setValue:(nullable NSString *)value forHTTPHeaderField:(NSString *)field;
 
 - (nullable NSString *)valueForHTTPHeaderField:(NSString *)field;
 

@@ -44,11 +44,16 @@ NSString * AFPercentEscapedStringFromString(NSString *string) {
     return escaped;
 }
 
-static NSArray * AFHTTPRequestSerializerObservedKeyPaths() {
+static NSArray * AFHTTPRequestSerializerObservedKeyPaths(void) {
     static NSArray *_AFHTTPRequestSerializerObservedKeyPaths = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _AFHTTPRequestSerializerObservedKeyPaths = @[NSStringFromSelector(@selector(allowsCellularAccess)), NSStringFromSelector(@selector(cachePolicy)), NSStringFromSelector(@selector(HTTPShouldHandleCookies)), NSStringFromSelector(@selector(HTTPShouldUsePipelining)), NSStringFromSelector(@selector(networkServiceType)), NSStringFromSelector(@selector(timeoutInterval))];
+        _AFHTTPRequestSerializerObservedKeyPaths = @[NSStringFromSelector(@selector(allowsCellularAccess)), 
+                                                     NSStringFromSelector(@selector(cachePolicy)),
+                                                     NSStringFromSelector(@selector(HTTPShouldHandleCookies)),
+                                                     NSStringFromSelector(@selector(HTTPShouldUsePipelining)),
+                                                     NSStringFromSelector(@selector(networkServiceType)),
+                                                     NSStringFromSelector(@selector(timeoutInterval))];
     });
 
     return _AFHTTPRequestSerializerObservedKeyPaths;
@@ -191,7 +196,8 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     
     
     self.HTTPMethodsEncodingParametersInURI = [NSSet setWithObjects:@"GET", @"HEAD", @"DELETE" ,nil];
-    
+    self.mutableObservedChangedKeyPaths = [NSMutableSet set];
+
     for (NSString *keyPath in AFHTTPRequestSerializerObservedKeyPaths()) {
         if ([self respondsToSelector:NSSelectorFromString(keyPath)]) {
             [self addObserver:self forKeyPath:keyPath options:NSKeyValueObservingOptionNew context:AFHTTPRequestSerializerObserverContext];
@@ -210,6 +216,29 @@ NSArray * AFQueryStringPairsFromKeyAndValue(NSString *key, id value) {
     }
 }
 
+#pragma mark - NSKeyValueObserving
+
++ (BOOL)automaticallyNotifiesObserversForKey:(NSString *)key
+{
+    if ([AFHTTPRequestSerializerObservedKeyPaths() containsObject:key]) {
+        return NO;
+    }
+    return [super automaticallyNotifiesObserversForKey:key];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(__unused id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == AFHTTPRequestSerializerObserverContext) {
+        if ([change[NSKeyValueChangeNewKey] isEqual:[NSNull null]]) {
+            [self.mutableObservedChangedKeyPaths removeObject:keyPath];
+        } else {
+            [self.mutableObservedChangedKeyPaths addObject:keyPath];
+        }
+    }
+}
 
 #pragma mark -
 - (void)setValue:(NSString *)value
@@ -252,7 +281,6 @@ forHTTPHeaderField:(NSString *)field
     return mutableRequest;
 }
 
-#pragma mark -
 #pragma mark -
 
 - (void)setQueryStringSerializationWithStyle:(AFHTTPRequestQueryStringSerializationStyle)style {

@@ -7,6 +7,7 @@
 
 #import "ViewController.h"
 #import "AFURLSessionManager.h"
+#import "AFNetworking/AFHTTPSessionManager.h"
 @interface ViewController ()
 @property (readwrite, nonatomic, strong) AFURLSessionManager *localManager;
 
@@ -18,7 +19,7 @@
     [super viewDidLoad];
     self.localManager = [[AFURLSessionManager alloc] init];
     [self.localManager.session.configuration.URLCache removeAllCachedResponses];
-    
+    [[AFHTTPSessionManager manager] GET:@"https://www.baidu.com" parameters:nil headers:nil progress:nil success:nil failure:nil];
     NSURLSessionTask *task = [self.localManager dataTaskWithRequest:[self bigImageURLRequest]
                                    uploadProgress:nil
                                  downloadProgress:^(NSProgress * _Nonnull downloadProgress) {
